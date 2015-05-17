@@ -6,9 +6,15 @@
 GET     /                           controllers.Application.index()
 
 # testing sek
-GET	    /greet                      controllers.Application.greet(name = "Anonymous")
-GET	    /greet/:name                controllers.Application.greet(name)
-GET     /home                       controllers.Application.home()
+GET     /greet                      controllers.Application.greet(name = "Anonymous")
+GET     /greet/:name                controllers.Application.greet(name)
+
+# Rating
+GET     /movie                      controllers.RatingController.page(page: Int = 1)
+GET     /movie/page                 controllers.RatingController.page(page: Int = 1)
+GET     /movie/page/:page           controllers.RatingController.page(page: Int)
+GET     /movie/search/page/:page    controllers.RatingController.search(page: Int)
+POST    /movie/rate                 controllers.RatingController.rate()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
