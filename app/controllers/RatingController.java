@@ -10,12 +10,17 @@ import play.db.ebean.*;
 import java.util.List;
 
 import models.Movie;
+import models.Rating;
+import models.Pagination;
 
 public class RatingController extends Controller {
 
     private static List<Movie> movies;
+    private static Pagination pagination;
 
-    private static final String title = "Movie Rating";
+    private static Result render() {
+        return ok(app.render("Movie Rating", rating.render(movies)));
+    }
 
     public static Result page(int page) {
         try {
@@ -29,7 +34,7 @@ public class RatingController extends Controller {
             System.out.println("Error: " + e.getMessage());
             movies = null;
         }
-        return ok(app.render(title, rating.render(movies)));
+        return render();
     }
 
     public static Result search(int page) {
@@ -41,7 +46,7 @@ public class RatingController extends Controller {
         try {
             movies = Movie.find
                 .where()
-                .ilike("title", "%" + search + "%")
+                    .istartsWith("title", search)
                 .orderBy("title asc")
                 .findPagingList(10)
                 .setFetchAhead(false)
@@ -51,12 +56,17 @@ public class RatingController extends Controller {
             System.out.println("Error: " + e.getMessage());
             movies = null;
         }
-        return ok(app.render(title, rating.render(movies)));
+        return render();
     }
 
     public static Result rate() {
-        int rating = Integer.parseInt(Form.form().bindFromRequest().get("rating"));
-        int movie = Integer.parseInt(Form.form().bindFromRequest().get("movie_id"));
+        Long rating = Long.parseLong(Form.form().bindFromRequest().get("rating"), 10);
+        Long movie = Long.parseLong(Form.form().bindFromRequest().get("movie_id"), 10);
+
+        List<Rating> list = Rating.find
+            .where()  
+              .eq("movie_id", movie)
+            .findList();
         return ok("rating: " + rating);
     }
 

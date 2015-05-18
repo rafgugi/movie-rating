@@ -9,6 +9,11 @@ GET     /                           controllers.Application.index()
 GET     /greet                      controllers.Application.greet(name = "Anonymous")
 GET     /greet/:name                controllers.Application.greet(name)
 
+# Auth
+GET     /login                      controllers.AuthController.login()
+POST    /login                      controllers.AuthController.attempt()
+GET     /logout                     controllers.AuthController.logout()
+
 # Rating
 GET     /movie                      controllers.RatingController.page(page: Int = 1)
 GET     /movie/page                 controllers.RatingController.page(page: Int = 1)
