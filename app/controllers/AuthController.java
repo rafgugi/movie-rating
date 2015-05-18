@@ -11,8 +11,12 @@ import java.util.List;
 
 public class AuthController extends Controller {
 
+    public static Result login(String flash) {
+        return ok(app.render("Login", login.render(flash)));
+    }
+
     public static Result login() {
-        return ok(app.render("Login", login.render()));
+        return login(null);
     }
 
     public static Result attempt() {
@@ -22,9 +26,9 @@ public class AuthController extends Controller {
         if (password.equals(id)) {
             session("id", id);
         } else {
-            return login();
+            return login("User ID doesn't match the password.");
         }
-        return ok("attempting to login, with id '"+id+"' and password '" + password + "'");
+        return ok("attempting to login, with id '" + id + "' and password '" + password + "'");
     }
 
     public static Result logout() {
