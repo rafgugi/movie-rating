@@ -16,8 +16,4 @@ public class Application extends Controller {
         return ok(index.render("it wotks!"));
     }
 
-    public static Result greet(String name) {
-        return ok(greet.render(name)).as("text/html");
-    }
-
 }

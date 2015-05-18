@@ -5,10 +5,6 @@
 # Home page
 GET     /                           controllers.Application.index()
 
-# testing sek
-GET     /greet                      controllers.Application.greet(name = "Anonymous")
-GET     /greet/:name                controllers.Application.greet(name)
-
 # Auth
 GET     /login                      controllers.AuthController.login()
 POST    /login                      controllers.AuthController.attempt()
