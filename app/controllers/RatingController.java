@@ -13,6 +13,7 @@ import models.Movie;
 import models.Rating;
 import models.Pagination;
 
+@Security.Authenticated(Secured.class)
 public class RatingController extends Controller {
 
     private static List<Movie> movies;
@@ -62,12 +63,19 @@ public class RatingController extends Controller {
     public static Result rate() {
         Long rating = Long.parseLong(Form.form().bindFromRequest().get("rating"), 10);
         Long movie = Long.parseLong(Form.form().bindFromRequest().get("movie_id"), 10);
+        Long id = Long.parseLong(session("id"), 10);
 
         List<Rating> list = Rating.find
             .where()  
-              .eq("movie_id", movie)
+              .eq("item_id", movie)
+              .eq("user_id", id)
             .findList();
-        return ok("rating: " + rating);
+
+        float prev = 0;
+        for (Rating r : list) {
+            prev = r.rating;
+        }
+        return ok("rating: " + rating + "\npreviously: " + prev);
     }
 
 }

@@ -16,4 +16,9 @@ public class Application extends Controller {
         return ok(index.render("it wotks!"));
     }
 
+    @Security.Authenticated(Secured.class)
+    public static Result home() {
+        return ok(app.render("Home", home.render()));
+    }
+
 }

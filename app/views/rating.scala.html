@@ -3,9 +3,10 @@
 <div class="well well-sm">
   <div class="container">
     <ul class="nav nav-pills">
+      <li><a href="/home">Home</a></li>
       <li class="active"><a href="/movie">Movies</a></li>
       <li><a href="#">Recomender</a></li>
-      <li class="pull-right"><a href="/login">Logout</a></li>
+      <li class="pull-right"><a href="/logout">Logout</a></li>
     </ul>
   </div>
 </div>
@@ -39,26 +40,24 @@
           <td>@movie.title</td>
           <td>@movie.release_date</td>
           <td>
-            <form method="POST" action="">
-              <input type="text" name="movie_id" value="@movie.id" class="hidden">
-              <div class="btn-group" data-toggle="buttons">
-                <label class="btn btn-default">
-                  <input type="radio" name="rating" value="1">1
-                </label>
-                <label class="btn btn-default">
-                  <input type="radio" name="rating" value="2">2
-                </label>
-                <label class="btn btn-default">
-                  <input type="radio" name="rating" value="3">3
-                </label>
-                <label class="btn btn-default">
-                  <input type="radio" name="rating" value="4">4
-                </label>
-                <label class="btn btn-default">
-                  <input type="radio" name="rating" value="5">5
-                </label>
-              </div>
-            </form>
+            <input type="text" name="movie_id" value="@movie.id" class="hidden">
+            <div class="btn-group" data-toggle="buttons">
+              <label class="btn btn-default" onclick="rate(@movie.id, 1)">
+                <input type="radio" value="1">1
+              </label>
+              <label class="btn btn-default" onclick="rate(@movie.id, 2)">
+                <input type="radio" value="2">2
+              </label>
+              <label class="btn btn-default" onclick="rate(@movie.id, 3)">
+                <input type="radio" value="3">3
+              </label>
+              <label class="btn btn-default" onclick="rate(@movie.id, 4)">
+                <input type="radio" value="4">4
+              </label>
+              <label class="btn btn-default" onclick="rate(@movie.id, 5)">
+                <input type="radio" value="5">5
+              </label>
+            </div>
           </td>
         </tr>
         }
@@ -70,19 +69,22 @@
 <script>
   function rate(id, rating) {
     $.ajax({
-      type: "POST",
-      dataType: "json",
+      type: "GET",
+      // dataType: "json",
       url: "/movie/rate",
       data: {
-        id: id,
+        movie_id: id,
         rating: rating
-      }
+      },
       success: function(data){
-        alert('oke');
+        alert(data);
       },
       error: function() {
         alert('unable to rate via ajax');
       }
     });
   }
+  $(document).ready(function() {
+
+  });
 </script>
