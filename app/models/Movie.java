@@ -15,6 +15,7 @@ public class Movie extends Model {
     public Long id;
     public String title;
     public String release_date;
+    public String video_release_date;
     public String url;
     public int unknown;
     public int action;
