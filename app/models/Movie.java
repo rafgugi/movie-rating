@@ -42,7 +42,7 @@ public class Movie extends Model {
     );
 
     @OneToMany(mappedBy = "movie")
-    @JoinColumn(name = "item_id")
+    @JoinColumn(name = "item_id", insertable = false, updatable = false)
     public List<Rating> ratings;
 
     public int ratingByUser(Long id) {

@@ -24,7 +24,7 @@ public class Rating extends Model {
     );
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "item_id")
+    @JoinColumn(name = "item_id", insertable = false, updatable = false)
     public Movie movie;
 
 }

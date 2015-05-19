@@ -1,4 +1,4 @@
-@(movies: List[Movie])
+@(movies: List[Movie], page: Pagination)
 
 @ratingMatch(m: Movie, rate: Int, s: String) = {
   @m.ratingMatch(Long.parseLong(session().get("id"), 10), rate, s)
@@ -8,14 +8,22 @@
   <div class="container">
     <ul class="nav nav-pills">
       <li><a href="/home">Home</a></li>
-      <li class="active"><a href="/movie">Movies</a></li>
+      <li class="active"><a href="/movie/page/1">Movies</a></li>
       <li><a href="#">Recomender</a></li>
       <li class="pull-right"><a href="/logout">Logout</a></li>
     </ul>
   </div>
 </div>
 <div class="container">
-  <form action="/movie/search/page/1" method="GET">
+  <nav class="text-uppercase text-center">
+    <ul class="pagination pagination">
+      <li><a href="/movie/page/1">*</a></li>
+      @for(i <- 'A' to 'Z') {
+        <li><a href="/movie/search/@i/page/1">@i</a></li>
+      }
+    </ul>
+  </nav>
+  <!-- <form action="/movie/search/page/1" method="GET">
     <div class="form-group">
       <div class="input-group">
         <input name="search" type="text" class="form-control" placeholder="Search movies..">
@@ -26,13 +34,13 @@
         </span>
       </div>
     </div>
-  </form>
-  <div class="panel panel-default">
-    @if(movies == null || movies.isEmpty()) {
-      <div class="panel-body">
-        Nothing to display.
-      </div>
-    } else {
+  </form> -->
+  @if(movies == null || movies.isEmpty()) {
+    <div class="well">
+      Nothing to display.
+    </div>
+  } else {
+    <div class="panel panel-default">
       <table class="table table-hover table-striped">
         <thead>
           <tr class="active">
@@ -55,7 +63,7 @@
               <td>
                 <div class="btn-group" data-toggle="buttons">
                   @for(i <- 1 to 5) {
-                    <label class="btn btn-default btn-xs @ratingMatch(movie, i, "active")" onclick="rate(@movie.id, @i)">
+                    <label class="btn btn-info btn-xs @ratingMatch(movie, i, "active")" onclick="rate(@movie.id, @i)">
                       <input type="radio" value="@i" @ratingMatch(movie, i, "checked")>@i
                     </label>
                   }
@@ -65,8 +73,27 @@
           }
         </tbody>
       </table>
-    }
-  </div>
+    </div>
+    <div class="text-center">
+      <nav>
+        <ul class="pagination pagination">
+          <li>
+            <a href="@page.removePage()1" aria-label="First">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          @for(i <- page.lower() to page.upper()) {
+            <li><a href="@page.removePage()@i">@i</a></li>
+          }
+          <li>
+            <a href="@page.removePage()@page.last" aria-label="Last">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  }
 </div>
 
 <script>

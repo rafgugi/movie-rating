@@ -6,8 +6,10 @@ import play.data.*;
 
 import views.html.*;
 
-import play.db.ebean.*;
 import java.util.List;
+import java.util.Date;
+import play.db.ebean.*;
+import com.avaje.ebean.*;
 
 import models.Movie;
 import models.Rating;
@@ -20,17 +22,20 @@ public class RatingController extends Controller {
     private static Pagination pagination;
 
     private static Result render() {
-        return ok(app.render("Movie Rating", rating.render(movies)));
+        pagination.url = request().uri();
+        return ok(app.render("Movie Rating", rating.render(movies, pagination)));
     }
 
     public static Result page(int page) {
         try {
-            movies = Movie.find
+            PagingList<Movie> pg = Movie.find
                 .orderBy("title asc")
                 .findPagingList(10)
-                .setFetchAhead(false)
+                .setFetchAhead(false);
+            movies = pg
                 .getPage(page)
                 .getList();
+            pagination = new Pagination(page, pg.getTotalPageCount() - 1);
         } catch (RuntimeException e) {
             System.out.println("Error: " + e.getMessage());
             movies = null;
@@ -38,21 +43,21 @@ public class RatingController extends Controller {
         return render();
     }
 
-    public static Result search(int page) {
-        DynamicForm requestData = Form.form().bindFromRequest();
-        String search = requestData.get("search");
+    public static Result search(int page, String search) {
         if (search.equals("")) {
             return page(1);
         }
         try {
-            movies = Movie.find
+            PagingList<Movie> pg = Movie.find
                 .where()
                     .istartsWith("title", search)
                 .orderBy("title asc")
                 .findPagingList(10)
-                .setFetchAhead(false)
+                .setFetchAhead(false);
+            movies = pg
                 .getPage(page)
                 .getList();
+            pagination = new Pagination(page, pg.getTotalPageCount() - 1);
         } catch (RuntimeException e) {
             System.out.println("Error: " + e.getMessage());
             movies = null;
@@ -61,20 +66,25 @@ public class RatingController extends Controller {
     }
 
     public static Result rate() {
-        Long rating = Long.parseLong(Form.form().bindFromRequest().get("rating"), 10);
+        int rating = Integer.parseInt(Form.form().bindFromRequest().get("rating"));
         Long movie = Long.parseLong(Form.form().bindFromRequest().get("item_id"), 10);
-        Long id = Long.parseLong(session("id"), 10);
+        Long user = Long.parseLong(session("id"), 10);
 
-        List<Rating> list = Rating.find
+        Rating r = Rating.find
             .where()  
               .eq("item_id", movie)
-              .eq("user_id", id)
-            .findList();
-
-        float prev = 0;
-        for (Rating r : list) {
-            prev = r.rating;
+              .eq("user_id", user)
+            .findUnique();
+        if (r == null) {
+            r = new Rating();
+            r.item_id = movie;
+            r.user_id = user;
         }
+
+        float prev = r.rating;
+        r.rating = rating;
+        r.timestamp = new Date().getTime() + "";
+        r.save();
         return ok("rating: " + rating + "\npreviously: " + prev);
     }
 
