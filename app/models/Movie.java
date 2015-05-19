@@ -45,4 +45,44 @@ public class Movie extends Model {
     @JoinColumn(name = "item_id")
     public List<Rating> ratings;
 
+    public int ratingByUser(Long id) {
+        for (Rating r : ratings) {
+            if (r.user_id == id) {
+                return r.rating;
+            }
+        }
+        return 0;
+    }
+
+    public String ratingMatch(Long id, int rating, String ans) {
+        if (ratingByUser(id) == rating) {
+            return ans;
+        }
+        return "";
+    }
+
+    public List<String> genre() {
+        List<String> genre = new ArrayList<>();
+        if (unknown == 1) genre.add("Unknown");
+        if (action == 1) genre.add("Action");
+        if (adventure == 1) genre.add("Adventure");
+        if (animation == 1) genre.add("Animation");
+        if (childrens == 1) genre.add("Childrens");
+        if (comedy == 1) genre.add("Comedy");
+        if (crime == 1) genre.add("Crime");
+        if (documentary == 1) genre.add("Documentary");
+        if (drama == 1) genre.add("Drama");
+        if (fantasy == 1) genre.add("Fantasy");
+        if (film_noir == 1) genre.add("Film_noir");
+        if (horror == 1) genre.add("Horror");
+        if (musical == 1) genre.add("Musical");
+        if (mistery == 1) genre.add("Mistery");
+        if (romance == 1) genre.add("Romance");
+        if (sci_fi == 1) genre.add("SciFi");
+        if (thriller == 1) genre.add("Thriller");
+        if (war == 1) genre.add("War");
+        if (western == 1) genre.add("Western");
+        return genre;
+    }
+
 }

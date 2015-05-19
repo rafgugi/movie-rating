@@ -62,7 +62,7 @@ public class RatingController extends Controller {
 
     public static Result rate() {
         Long rating = Long.parseLong(Form.form().bindFromRequest().get("rating"), 10);
-        Long movie = Long.parseLong(Form.form().bindFromRequest().get("movie_id"), 10);
+        Long movie = Long.parseLong(Form.form().bindFromRequest().get("item_id"), 10);
         Long id = Long.parseLong(session("id"), 10);
 
         List<Rating> list = Rating.find
