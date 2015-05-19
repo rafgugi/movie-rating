@@ -38,6 +38,10 @@ public class Movie extends Model {
     
     public static Finder<Long,Movie> find = new Finder<Long,Movie>(
         Long.class, Movie.class
-    ); 
+    );
+
+    @OneToMany(mappedBy = "movie")
+    @JoinColumn(name = "item_id")
+    public List<Rating> ratings;
 
 }

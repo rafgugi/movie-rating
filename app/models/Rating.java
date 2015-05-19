@@ -17,10 +17,14 @@ public class Rating extends Model {
     public Long item_id;
     public Long user_id;
     public String timestamp;
-    public float rating;
+    public int rating;
     
     public static Finder<Long,Rating> find = new Finder<Long,Rating>(
         Long.class, Rating.class
-    ); 
+    );
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "item_id")
+    public Movie movie;
 
 }
