@@ -5,7 +5,11 @@
       <li class="active"><a href="/home">Home</a></li>
       <li><a href="/movie/page/1">Movies</a></li>
       <li><a href="/rec">Recommender</a></li>
-      <li class="pull-right"><a href="/logout">Logout</a></li>
+      @if(session().get("id") != null) {
+        <li class="pull-right"><a href="/logout">Logout</a></li>
+      } else {
+        <li class="pull-right"><a href="/login">Login</a></li>
+      }
     </ul>
   </div>
 </div>
