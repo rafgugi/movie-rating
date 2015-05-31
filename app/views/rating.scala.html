@@ -23,18 +23,7 @@
       }
     </ul>
   </nav>
-  <!-- <form action="/movie/search/page/1" method="GET">
-    <div class="form-group">
-      <div class="input-group">
-        <input name="search" type="text" class="form-control" placeholder="Search movies..">
-        <span class="input-group-btn">
-          <button class="btn btn-default" type="submit">
-            <span class="glyphicon glyphicon-search"></span>
-          </button>
-        </span>
-      </div>
-    </div>
-  </form> -->
+  </form>
   @if(movies == null || movies.isEmpty()) {
     <div class="well">
       Nothing to display.
@@ -47,28 +36,32 @@
             <th class="col-md-5">Movie Title</th>
             <th class="col-md-3">Genre</th>
             <th class="col-md-2">Release</th>
-            <th class="col-md-2">Rating</th>
+            @if(session().get("id") != null) {
+              <th class="col-md-2">Rating</th>
+            }
           </tr>
         </thead>
         <tbody>
           @for(movie <- movies) {
             <tr>
-              <td>@movie.title</td>
+              <td><a href="/movie/rec/@movie.id">@movie.title</a></td>
               <td>
                 @for(s <- movie.genre()) {
                   @s
                 }
               </td>
-              <td>@movie.release_date</td>
-              <td>
-                <div class="btn-group" data-toggle="buttons">
-                  @for(i <- 1 to 5) {
-                    <label class="btn btn-info btn-xs @ratingMatch(movie, i, "active")" onclick="rate(@movie.id, @i)">
-                      <input type="radio" value="@i" @ratingMatch(movie, i, "checked")>@i
-                    </label>
-                  }
-                </div>
-              </td>
+              <td>@movie.releaseDate</td>
+              @if(session().get("id") != null) {
+                <td>
+                  <div class="btn-group" data-toggle="buttons">
+                    @for(i <- 1 to 5) {
+                      <label class="btn btn-info btn-xs @ratingMatch(movie, i, "active")" onclick="rate(@movie.id, @i)">
+                        <input type="radio" value="@i" @ratingMatch(movie, i, "checked")>@i
+                      </label>
+                    }
+                  </div>
+                </td>
+              }
             </tr>
           }
         </tbody>

@@ -15,7 +15,6 @@ import models.Movie;
 import models.Rating;
 import models.Pagination;
 
-@Security.Authenticated(Secured.class)
 public class RatingController extends Controller {
 
     private static List<Movie> movies;
@@ -65,6 +64,7 @@ public class RatingController extends Controller {
         return render();
     }
 
+    @Security.Authenticated(Secured.class)
     public static Result rate() {
         int rating = Integer.parseInt(Form.form().bindFromRequest().get("rating"));
         Long movie = Long.parseLong(Form.form().bindFromRequest().get("item_id"), 10);

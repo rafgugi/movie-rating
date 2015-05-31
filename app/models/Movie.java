@@ -14,8 +14,8 @@ public class Movie extends Model {
     @Id
     public Long id;
     public String title;
-    public String release_date;
-    public String video_release_date;
+    public String releaseDate;
+    public String videoReleaseDate;
     public String url;
     public int unknown;
     public int action;
@@ -27,12 +27,12 @@ public class Movie extends Model {
     public int documentary;
     public int drama;
     public int fantasy;
-    public int film_noir;
+    public int filmNoir;
     public int horror;
     public int musical;
     public int mistery;
     public int romance;
-    public int sci_fi;
+    public int sciFi;
     public int thriller;
     public int war;
     public int western;
@@ -75,12 +75,12 @@ public class Movie extends Model {
         if (documentary == 1) genre.add("Documentary");
         if (drama == 1) genre.add("Drama");
         if (fantasy == 1) genre.add("Fantasy");
-        if (film_noir == 1) genre.add("Film_noir");
+        if (filmNoir == 1) genre.add("Film noir");
         if (horror == 1) genre.add("Horror");
         if (musical == 1) genre.add("Musical");
         if (mistery == 1) genre.add("Mistery");
         if (romance == 1) genre.add("Romance");
-        if (sci_fi == 1) genre.add("SciFi");
+        if (sciFi == 1) genre.add("SciFi");
         if (thriller == 1) genre.add("Thriller");
         if (war == 1) genre.add("War");
         if (western == 1) genre.add("Western");

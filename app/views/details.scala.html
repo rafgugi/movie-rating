@@ -1,10 +1,10 @@
-@(recs: List[Recommendation])
+@(m: Movie, recs: List[Movie])
 <div class="well well-sm">
   <div class="container">
     <ul class="nav nav-pills">
       <li><a href="/home">Home</a></li>
       <li><a href="/movie/page/1">Movies</a></li>
-      <li class="active"><a href="/rec">Recommender</a></li>
+      <li><a href="/rec">Recommender</a></li>
       <li class="pull-right"><a href="/logout">Logout</a></li>
     </ul>
   </div>
@@ -16,26 +16,36 @@
     </div>
   } else {
     <div class="panel panel-default">
+      <div class="panel-heading">@m.title</div>
+      <div class="panel-body">
+        <p><strong>Release: </strong>@m.releaseDate</p>
+        <p>
+          <strong>Genre: </strong>
+          @for(genre <- m.genre()) {
+            @genre
+          }
+        </p>
+        <p><strong>Url: </strong>@m.url</p>
+        <p><strong>People who liked this also liked...</strong></p>
+      </div>
       <table class="table table-hover table-striped">
         <thead>
           <tr>
             <th class="col-md-5">Movie Title</th>
             <th class="col-md-3">Genre</th>
             <th class="col-md-2">Release</th>
-            <th class="col-md-2">Rating</th>
           </tr>
         </thead>
         <tbody>
           @for(rec <- recs) {
             <tr>
-              <td><a href="/movie/rec/@rec.movie.id">@rec.movie.title</a></td>
+              <td><a href="/movie/rec/@rec.id">@rec.title</a></td>
               <td>
-                @for(genre <- rec.movie.genre()) {
+                @for(genre <- rec.genre()) {
                   @genre
                 }
               </td>
-              <td>@rec.movie.releaseDate</td>
-              <td>@(Math.round(rec.rating * 100)/100.0)</td>
+              <td>@rec.releaseDate</td>
             </tr>
           }
         </tbody>
