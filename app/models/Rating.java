@@ -11,8 +11,8 @@ import play.data.validation.*;
 @Table(name="data")
 public class Rating extends Model {
 
-    @Id
-    public Long id;
+    // @Id
+    // public Long id;
 
     public Long item_id;
     public Long user_id;

@@ -41,21 +41,23 @@ public class Movie extends Model {
         Long.class, Movie.class
     );
 
-    @OneToMany(mappedBy = "movie")
-    @JoinColumn(name = "item_id", insertable = false, updatable = false)
-    public List<Rating> ratings;
+    // @OneToMany(mappedBy = "movie")
+    // @JoinColumn(name = "item_id", insertable = false, updatable = false)
+    // public List<Rating> ratings;
 
-    public int ratingByUser(Long id) {
-        for (Rating r : ratings) {
-            if (r.user_id == id) {
-                return r.rating;
-            }
+    public int ratingByUser(Long user_id) {
+        List<Rating> rs = Rating.find.where()
+                .eq("item_id", this.id + "")
+                .eq("user_id", user_id + "")
+                .findList();
+        for (Rating r : rs) {
+            return r.rating;
         }
         return 0;
     }
 
-    public String ratingMatch(Long id, int rating, String ans) {
-        if (ratingByUser(id) == rating) {
+    public String ratingMatch(Long user_id, int rating, String ans) {
+        if (ratingByUser(user_id) == rating) {
             return ans;
         }
         return "";

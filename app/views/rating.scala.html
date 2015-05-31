@@ -9,7 +9,7 @@
     <ul class="nav nav-pills">
       <li><a href="/home">Home</a></li>
       <li class="active"><a href="/movie/page/1">Movies</a></li>
-      <li><a href="#">Recomender</a></li>
+      <li><a href="/rec">Recommender</a></li>
       <li class="pull-right"><a href="/logout">Logout</a></li>
     </ul>
   </div>
@@ -108,7 +108,7 @@
         rating: rating
       },
       success: function(data){
-        alert(data);
+        // alert(data);
       },
       error: function() {
         alert('unable to rate via ajax');

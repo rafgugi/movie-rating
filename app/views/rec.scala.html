@@ -1,0 +1,45 @@
+@(recs: List[Recommendation])
+<div class="well well-sm">
+  <div class="container">
+    <ul class="nav nav-pills">
+      <li><a href="/home">Home</a></li>
+      <li><a href="/movie/page/1">Movies</a></li>
+      <li class="active"><a href="/rec">Recommender</a></li>
+      <li class="pull-right"><a href="/logout">Logout</a></li>
+    </ul>
+  </div>
+</div>
+<div class="container">
+  @if(recs == null || recs.isEmpty()) {
+    <div class="well">
+      Nothing to display.
+    </div>
+  } else {
+        <div class="panel panel-default">
+          <table class="table table-hover table-striped">
+            <thead>
+              <tr>
+                <th class="col-md-5">Movie Title</th>
+                <th class="col-md-3">Genre</th>
+                <th class="col-md-2">Release</th>
+                <th class="col-md-2">Rating</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for(rec <- recs) {
+                <tr>
+                  <td>@rec.movie.title</td>
+                  <td>
+                    @for(genre <- rec.movie.genre()) {
+                      @genre
+                    }
+                  </td>
+                  <td>@rec.movie.release_date</td>
+                  <td>@(Math.round(rec.rating * 100)/100.0)</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+  }
+</div>

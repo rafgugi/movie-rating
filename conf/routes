@@ -20,5 +20,8 @@ GET     /movie/page/:p            	controllers.RatingController.page(p: Int)
 GET     /movie/search/:s/page/:p    controllers.RatingController.search(p: Int, s: String)
 GET     /movie/rate                 controllers.RatingController.rate()
 
+# Recommender
+GET		/rec 						controllers.RecommendController.index()
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
